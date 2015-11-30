@@ -40,3 +40,4 @@ CMD /usr/sbin/apache2ctl -D FOREGROUND
 
 # expose container at port 80
 EXPOSE 80
+VOLUME ["/config", "/app"]
