@@ -25,8 +25,7 @@ RUN a2enmod php5 && \
 	sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.ini && \
 	sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini && \
 	# Generate ssh pub key
-	ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa && \
-	chmod +x /app/locomotive
+	ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 
 # Manually set up the apache environment variables
 ENV APACHE_RUN_USER www-data
