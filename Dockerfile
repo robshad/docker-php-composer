@@ -5,18 +5,21 @@ MAINTAINER Rob Shad <robertmshad@googlemail.com>
 ENV DEBIAN_FRONTEND noninteractive
 ENV APTLIST="php5 php5-sqlite lftp libssh2-php sqlite3 apache2 libapache2-mod-php5 expect"
 
-ONBUILD echo "deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main" >> /etc/apt/sources.list && \
+RUN echo "deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main" >> /etc/apt/sources.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-key E5267A6C && \
 	apt-get update -q && \
 	apt-get install $APTLIST -qy && \
 	apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
+#ADD init/ /etc/my_init.d/
+RUN chmod -v +x /etc/service/*/run && \
+  chmod -v +x /etc/my_init.d/*.sh
 
 # Install composer for PHP dependencies
-ONBUILD cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+RUN cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
 # Enable apache mods.
-ONBUILD a2enmod php5 && \
+RUN a2enmod php5 && \
 	a2enmod rewrite && \
 	# Update the PHP.ini file, enable <? ?> tags and quieten logging.
 	sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.ini && \
@@ -24,10 +27,6 @@ ONBUILD a2enmod php5 && \
 	# Generate ssh pub key
 	ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 
-#ADD init/ /etc/my_init.d/
-RUN chmod -v +x /etc/service/*/run && \
-  chmod -v +x /etc/my_init.d/*.sh
-  
 # Manually set up the apache environment variables
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
