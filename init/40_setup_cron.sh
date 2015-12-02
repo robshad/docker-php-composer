@@ -1,0 +1,1 @@
+crontab -l | { cat; echo "cd app && ./locomotive -vvv $(printenv REMOTE_SERVER)"; } | crontab -

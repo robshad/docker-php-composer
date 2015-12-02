@@ -11,7 +11,7 @@ RUN echo "deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main" >> /e
 	apt-get install $APTLIST -qy && \
 	apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
-#ADD init/ /etc/my_init.d/
+ADD init/ /etc/my_init.d/
 RUN chmod -v +x /etc/service/*/run && \
   chmod -v +x /etc/my_init.d/*.sh
 
@@ -26,8 +26,7 @@ RUN a2enmod php5 && \
 	sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini && \
 	# Generate ssh pub key
 	ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa && \
-	ln -s /config/locomotive-config.yml root/.locomotive && \
-	crontab -l | { cat; echo "cd app && ./locomotive -vvv $(printenv REMOTE_SERVER)"; } | crontab -
+	ln -s /config/locomotive-config.yml root/.locomotive
 
 # Manually set up the apache environment variables
 ENV APACHE_RUN_USER www-data
