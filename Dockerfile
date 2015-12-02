@@ -27,7 +27,6 @@ RUN a2enmod php5 && \
 	# Generate ssh pub key
 	ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa && \
 	ln -s /config/locomotive-config.yml root/.locomotive && \
-	chmod -v +x /app/locomotive && \
 	crontab -l | { cat; echo "cd app && ./locomotive -vvv $(printenv REMOTE_SERVER)"; } | crontab -
 
 # Manually set up the apache environment variables
