@@ -12,7 +12,6 @@ RUN echo "deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main" >> /e
 	apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
 ADD crontab /etc/cron.d/locomotive-cron
-ADD init/ /etc/my_init.d/
 RUN chmod -v +x /etc/service/*/run && \
   chmod -v +x /etc/my_init.d/*.sh && \
   chmod 0644 /etc/cron.d/locomotive-cron && \
