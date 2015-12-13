@@ -11,9 +11,11 @@ RUN echo "deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main" >> /e
 	apt-get install $APTLIST -qy && \
 	apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
+ADD crontab /etc/cron.d/locomotive-cron
 ADD init/ /etc/my_init.d/
 RUN chmod -v +x /etc/service/*/run && \
-  chmod -v +x /etc/my_init.d/*.sh
+  chmod -v +x /etc/my_init.d/*.sh && \
+  chmod 0644 /etc/cron.d/locomotive-cron
 
 # Install composer for PHP dependencies
 RUN cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
@@ -39,7 +41,9 @@ ENV APACHE_PID_FILE /var/run/apache2.pid
 #ADD apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 
 # By default, simply start apache.
-CMD /usr/sbin/apache2ctl -D FOREGROUND
+CMD /usr/sbin/apache2ctl -D FOREGROUND && \
+	cron && \
+	tail -f /var/log/cron.log
 
 # expose container at port 80
 EXPOSE 80
