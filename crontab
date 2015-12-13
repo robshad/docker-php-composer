@@ -1,1 +1,1 @@
-*/5 * * * * root "cd app && ./locomotive -vvv $(printenv REMOTE_SERVER) >> /var/log/cron.log 2>&1"
+*/5 * * * * "cd app && ./locomotive -vvv $(printenv REMOTE_SERVER) >> /var/log/cron.log 2>&1"

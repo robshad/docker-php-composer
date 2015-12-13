@@ -15,7 +15,8 @@ ADD crontab /etc/cron.d/locomotive-cron
 ADD init/ /etc/my_init.d/
 RUN chmod -v +x /etc/service/*/run && \
   chmod -v +x /etc/my_init.d/*.sh && \
-  chmod 0644 /etc/cron.d/locomotive-cron
+  chmod 0644 /etc/cron.d/locomotive-cron && \
+  crontab /etc/cron.d/locomotive-cron
 
 # Install composer for PHP dependencies
 RUN cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
