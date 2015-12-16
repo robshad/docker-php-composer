@@ -3,7 +3,7 @@ MAINTAINER Rob Shad <robertmshad@googlemail.com>
 
 # disable interactive functions. 
 ENV DEBIAN_FRONTEND noninteractive
-ENV APTLIST="php5 php5-sqlite lftp libssh2-php sqlite3 apache2 libapache2-mod-php5 expect"
+ENV APTLIST="php5 php5-sqlite lftp libssh2-php sqlite3 apache2 libapache2-mod-php5"
 
 RUN echo "deb http://ppa.launchpad.net/ondrej/php5-5.6/ubuntu trusty main" >> /etc/apt/sources.list && \
     apt-key adv --keyserver keyserver.ubuntu.com --recv-key E5267A6C && \
@@ -32,18 +32,17 @@ RUN a2enmod php5 && \
 	ln -s /config/locomotive-config.yml root/.locomotive
 
 # Manually set up the apache environment variables
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /var/log/apache2
-ENV APACHE_LOCK_DIR /var/lock/apache2
-ENV APACHE_PID_FILE /var/run/apache2.pid
+#ENV APACHE_RUN_USER www-data
+#ENV APACHE_RUN_GROUP www-data
+#ENV APACHE_LOG_DIR /var/log/apache2
+#ENV APACHE_LOCK_DIR /var/lock/apache2
+#ENV APACHE_PID_FILE /var/run/apache2.pid
 
 # Update the default apache site with the config we created.
 #ADD apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 
 # By default, simply start apache.
-CMD /usr/sbin/apache2ctl -D FOREGROUND && \
-	cron && \
+CMD cron && \
 	tail -f /var/log/cron.log
 
 # expose container at port 80
