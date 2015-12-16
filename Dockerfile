@@ -42,7 +42,8 @@ RUN a2enmod php5 && \
 #ADD apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 
 # By default, simply start apache.
-#CMD cron && tail -f /var/log/cron.log
+CMD cron && \
+	tail -f /var/log/cron.log
 
 # expose container at port 80
 EXPOSE 80
