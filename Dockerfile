@@ -16,7 +16,7 @@ RUN chmod 0644 /etc/cron.d/locomotive-cron && \
   crontab /etc/cron.d/locomotive-cron
 
 # Install composer for PHP dependencies
-RUN cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Enable apache mods.
 RUN a2enmod php5 && \
