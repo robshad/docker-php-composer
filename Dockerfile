@@ -1,4 +1,4 @@
-FROM linuxserver/baseimage
+FROM ubuntu:14.04
 MAINTAINER Rob Shad <robertmshad@googlemail.com>
 
 # disable interactive functions. 
