@@ -38,6 +38,7 @@ RUN a2enmod php5 && \
 #ADD apache-config.conf /etc/apache2/sites-enabled/000-default.conf
 
 # By default, simply start apache.
+CMD /usr/sbin/apache2ctl -D FOREGROUND
 
 # expose container at port 80
 EXPOSE 80
